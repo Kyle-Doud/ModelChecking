@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<sweep runs="1">
+<parameter constant_type="double" name="percentLikeNeighbors" type="constant" valueRange="70"/>
+<parameter constant_type="double" name="worldWidth" type="constant" valueRange="50"/>
+<parameter constant_type="double" name="worldHeight" type="constant" valueRange="50"/>
+<parameter constant_type="double" name="maxDeathAge" type="constant" valueRange="100"/>
+<parameter constant_type="double" name="minDeathAge" type="constant" valueRange="80"/>
+</sweep>

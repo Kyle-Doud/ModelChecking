@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<sweep runs="1">
+<parameter constant_type="double" name="percentLikeNeighbors" type="constant" valueRange="70"/>
+</sweep>

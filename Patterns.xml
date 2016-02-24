@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Patterns>
+   <Absence>
+      <Globally>ltl a1 { [](!P) }</Globally>
+      <Before>ltl a2 { &lt;&gt;R -&gt; (!P U R) }</Before>
+      <After>ltl a3 { [](Q -&gt; [](!P)) }</After>
+      <Between>ltl a4 { []((Q &amp;&amp; !R &amp;&amp; &lt;&gt; R) -&gt; (!P U R)) }</Between>
+      <AfterUntil>ltl a5 { [](Q &amp;&amp; !R -&gt; (!P W R)) }</AfterUntil>
+   </Absence>
+   <Existence>
+      <Globally>ltl e1 { &lt;&gt;(P) }</Globally>
+      <Before>ltl e2 { !R W (P &amp;&amp; !R) }</Before>
+      <After>ltl e3 { [](!Q || &lt;&gt;(Q &amp;&amp; &lt;&gt;P)) }</After>
+      <Between>ltl e4 { [](Q &amp;&amp; !R -&gt; (!R W (P &amp;&amp; !R))) }</Between>
+      <AfterUntil>ltl e5 { [](Q &amp;&amp; !R -&gt; (!R U (P &amp;&amp; !R))) }</AfterUntil>
+   </Existence>
+   <BoundedExistence>
+      <Globally>ltl be1 { (!P W (P W (!P W (P W []!P)))) }</Globally>
+      <Before>ltl be2 { &lt;&gt;R -&gt; ((!P &amp;&amp; !R U (R || ((P &amp;&amp; !R) U (R || ((!P &amp;&amp; !R U (R || ((P &amp;&amp; !R) U (R || (!P U R))))))))))) }</Before>
+      <After>ltl be3 { &lt;&gt;Q -&gt; (!Q U (Q &amp;&amp; (!P W (P W (!P W (P W []!P)))))) }</After>
+      <Between>ltl be4 { []((Q &amp;&amp; &lt;&gt;R-&gt; ((!P &amp;&amp; !R U (R || ((P &amp;&amp; !R) U (R || ((!P &amp;&amp; !R U (R || ((P &amp;&amp; !R) U (R || (!P U R))))))))))))) }</Between>
+      <AfterUntil>ltl be5 { [](Q -&gt; ((!P &amp;&amp; !R U (R || ((P &amp;&amp; !R) U (R || ((!P &amp;&amp; !R U (R || ((P &amp;&amp; !R) U (R || (!P W R || []P)))))))))))) }</AfterUntil>
+   </BoundedExistence>
+   <Universality>
+      <Globally>ltl u1 { [](P) }</Globally>
+      <Before>ltl u2 { &lt;&gt;R -&gt; (P U R) }</Before>
+      <After>ltl u3 { [](Q -&gt; [](P)) }</After>
+      <Between>ltl u4 { []((Q &amp;&amp; !R &amp;&amp; &lt;&gt; R-&gt; (P U R))) }</Between>
+      <AfterUntil>ltl u5 { [](Q &amp;&amp; !R -&gt; (P W R)) }</AfterUntil>
+   </Universality>
+   <Precedence>
+      <Globally>ltl p1 { !P W S }</Globally>
+      <Before>ltl p2 { &lt;&gt;R -&gt; (!P U (S || R)) }</Before>
+      <After>ltl p3 { []!Q || &lt;&gt;(Q &amp;&amp; (!P W S)) }</After>
+      <Between>ltl p4 { []((Q &amp;&amp; !R &amp;&amp; &lt;&gt;R) -&gt; (!P U (S || R))) }</Between>
+      <AfterUntil>ltl p5 { [](Q &amp;&amp; !R -&gt; (!P W (S || R))) }</AfterUntil>
+   </Precedence>
+   <Response>
+      <Globally>ltl r1 { [](P -&gt; &lt;&gt;S) }</Globally>
+      <Before>ltl r2 { &lt;&gt;R -&gt; (P -&gt; (!R U (S &amp;&amp; !R))) U R }</Before>
+      <After>ltl r3 { [](Q -&gt; [](P -&gt; &lt;&gt;S)) }</After>
+      <Between>ltl r4 { []((Q &amp;&amp; !R &amp;&amp; &lt;&gt;R) -&gt; (P -&gt; (!R U (S &amp;&amp; !R))) U R) }</Between>
+      <AfterUntil>ltl r5 { [](Q &amp;&amp; !R -&gt; ((P -&gt; (!R U (S &amp;&amp; !R))) W R)) }</AfterUntil>
+   </Response>
+   <PrecedenceChain>
+      <Globally>ltl pc1 { &lt;&gt;P -&gt; (!P U (S &amp;&amp; !P &amp;&amp; X(!P U T))) }</Globally>
+      <Before>ltl pc2 { &lt;&gt;R -&gt; (!P U (R || (S &amp;&amp; !P &amp;&amp; X(!P U T)))) }</Before>
+      <After>ltl pc3 { ([]!Q || (!Q U (Q &amp;&amp; &lt;&gt;P -&gt; (!P U (S &amp;&amp; !P &amp;&amp; X(!P U T)))))) }</After>
+      <Between>ltl pc4 { []((Q &amp;&amp; &lt;&gt;R-&gt; (!P U (R || (S &amp;&amp; !P &amp;&amp; X(!P U T)))))) }</Between>
+      <AfterUntil>ltl pc5 { [](Q -&gt; (&lt;&gt;P -&gt; (!P U (R || (S &amp;&amp; !P &amp;&amp; X(!P U T)))))) }</AfterUntil>
+   </PrecedenceChain>
+   <PrecedenceChain2>
+      <Globally>ltl pc6 { (&lt;&gt;(S &amp;&amp; X&lt;&gt;T) -&gt; ((!S) U P)) }</Globally>
+      <Before>ltl pc7 { &lt;&gt;R -&gt; ((!(S &amp;&amp; (!R &amp;&amp; X(!R U (T &amp;&amp; !R)))) U (R || P))) }</Before>
+      <After>ltl pc8 { ([]!Q || ((!Q) U (Q &amp;&amp; ((&lt;&gt;(S &amp;&amp; X&lt;&gt;T)) -&gt; ((!S) U P))))) }</After>
+      <Between>ltl pc9 { []((Q &amp;&amp; &lt;&gt;R) -&gt; ((!(S &amp;&amp; (!R) &amp;&amp; X(!R U (T &amp;&amp; !R)))) U (R || P))) }</Between>
+      <AfterUntil>ltl pc10 { [](Q -&gt; (!(S &amp;&amp; (!R&amp; X(!R U (T &amp;&amp; !R))) U (R || P) || [](!(S &amp;&amp; X&lt;&gt;T))))) }</AfterUntil>
+   </PrecedenceChain2>
+   <ResponseChain>
+      <Globally>ltl rc1 { [] (S &amp;&amp; X&lt;&gt; T -&gt; X(&lt;&gt;(T &amp;&amp; &lt;&gt; P))) }</Globally>
+      <Before>ltl rc2 { &lt;&gt;R -&gt; (S &amp;&amp; X(!R U T-&gt; X(!R U (T &amp;&amp; &lt;&gt; P))) U R) }</Before>
+      <After>ltl rc3 { [] (Q -&gt; [] (S &amp;&amp; X&lt;&gt; T -&gt; X(!T U (T &amp;&amp; &lt;&gt; P)))) }</After>
+      <Between>ltl rc4 { [] ((Q &amp;&amp; &lt;&gt;R) -&gt; (S &amp;&amp; X(!R U T) -&gt; X(!R U (T &amp;&amp; &lt;&gt; P))U R)) }</Between>
+      <AfterUntil>ltl rc5 { [] (Q -&gt; (S &amp;&amp; X(!R U T-&gt; X(!R U (T &amp;&amp; &lt;&gt; P))) U (R || [] (S &amp;&amp; X(!R U T-&gt; X(!R U (T &amp;&amp; &lt;&gt; P))))))) }</AfterUntil>
+   </ResponseChain>
+   <ResponseChain2>
+      <Globally>ltl rc6 { [] (P -&gt; &lt;&gt;(S &amp;&amp; X&lt;&gt;T)) }</Globally>
+      <Before>ltl rc7 { &lt;&gt;R -&gt; (P -&gt; (!R U (S &amp;&amp; !R &amp;&amp; X(!R U T))) U R) }</Before>
+      <After>ltl rc8 { [] (Q -&gt; [] (P -&gt; (S &amp;&amp; X&lt;&gt; T))) }</After>
+      <Between>ltl rc9 { [] ((Q &amp;&amp; &lt;&gt;R)-&gt; (P -&gt; (!R U (S &amp;&amp; !R &amp;&amp; X(!R U T)))) U R) }</Between>
+      <AfterUntil>ltl rc10 { [] (Q -&gt; (P -&gt; (!R U (S &amp;&amp; !R &amp;&amp; X(!R U T)))U (R || [] (P -&gt; (S &amp;&amp; X&lt;&gt; T))))) }</AfterUntil>
+   </ResponseChain2>
+</Patterns>
