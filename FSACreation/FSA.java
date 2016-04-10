@@ -38,19 +38,27 @@ public class FSA {
 	public void developFSAFromData(ArrayList<DataType[]> allData) {
 		// Obtain the first state, which should be all uninitialized values
 		DataType[] firstDataSet = allData.get(0);
-		int firstStateIndex = retrieveState(firstDataSet);
+		int firstStateIndex = checkStateList(firstDataSet);
 		State currentState = states.get(firstStateIndex);
 
 		// Analyze the rest of the data, and add new states to the FSA if needed
 		for (int numAnalyzed = 1; numAnalyzed < allData.size(); numAnalyzed++) {
 		 	DataType[] nextDataSet = allData.get(numAnalyzed);
-			if (currentState.isStateSatisfiedBy(nextDataSet)) {
-				// remain in the same state
-				currentState.addTransitionIfNotPresent(currentState.getIndex());
-			} else {
-				int nextStateIndex = retrieveState(nextDataSet);
-				currentState.addTransitionIfNotPresent(nextStateIndex);
-				currentState = states.get(nextStateIndex);
+		 	Transition t;
+			if (currentState.isStateSatisfiedBy(nextDataSet)) 
+			{
+				t = new Transition(currentState, currentState);// add self loop
+				currentState.addTransitionIfNotPresent(t);//increments occurances if present
+				currentState.calculateTransitionWeights();// balance transition probabilities
+			} 
+			else 
+			{
+				int nextStateIndex = checkStateList(nextDataSet);
+				State nextState = states.get(nextStateIndex);//next index created by checkStateList..
+				t = new Transition(nextState, currentState);
+				currentState.addTransitionIfNotPresent(t);//increments occurances if present
+				currentState.calculateTransitionWeights();
+				currentState = nextState;
 			}
 		}
 	}
@@ -62,7 +70,7 @@ public class FSA {
 	 * @param dataValues the target values of each variable in this state
 	 * @return the index in the states array of the state these values satisfy
 	 */
-	private int retrieveState(DataType[] dataValues) 
+	private int checkStateList(DataType[] dataValues) 
 	{
 		for (int i = 0; i < states.size(); i++) 
 		{
@@ -70,7 +78,7 @@ public class FSA {
 				return i;
 		}
 		int newIndex = states.size();
-		states.add(new State(newIndex, dataValues, true));
+		states.add(new State(newIndex, dataValues));
 		return newIndex;
 	}
 	
@@ -151,7 +159,7 @@ public class FSA {
 				}
 			}
 			int newIndex = states.size();
-			states.add(new State(newIndex, dataValues, false));
+			states.add(new State(newIndex, dataValues));
 			return newIndex;
 		}
 		
