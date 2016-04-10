@@ -9,7 +9,6 @@ public class State {
 	private Condition[] conditions;
 	private ArrayList<Integer> transitions;
 
-	
 	/**
 	 * Create a new State object
 	 * @param newIndex Index this state is stored at in the FSA's states array
@@ -18,8 +17,10 @@ public class State {
 	 * @param fromData Whether this State is being defined from reading data
 	 * 		or from a manual definition from information in the DSL
 	 */
-	public State(int newIndex, DataType[] newDataValues, boolean fromData) {
-		if (fromData) {
+	public State(int newIndex, DataType[] newDataValues, boolean fromData) 
+	{
+		if (fromData) 
+		{
 			Condition[] newConditions = new Condition[newDataValues.length]; 
 			// state is defined by parsing data. there will be no range conditions
 			for (int i = 0; i < newDataValues.length; i++)
@@ -27,14 +28,19 @@ public class State {
 			this.index = newIndex;
 			this.conditions = newConditions;
 			transitions = new ArrayList<Integer>();
-		} else {
+		} 
+		else 
+		{
 			int numConditions = newDataValues.length / 2;
 			Condition[] newConditions = new Condition[numConditions]; 
-			for (int i = 0; i < (numConditions); i++) {
-				if (newDataValues[i*2].compareTo(newDataValues[i*2+1]) == 0) {
+			for (int i = 0; i < (numConditions); i++) 
+			{
+				if (newDataValues[i*2].compareTo(newDataValues[i*2+1]) == 0) 
+				{
 					newConditions[i] = new Condition(newDataValues[i*2]);
 				}
-				else {
+				else 
+				{
 					// range condition
 					newConditions[i] = new Condition(newDataValues[i*2],
 										newDataValues[i*2 + 1]);
@@ -66,20 +72,28 @@ public class State {
 	 * @param dataValues Values of variables at a specific point of time
 	 * @return true if these values satisfy every condition of this state
 	 */
-	boolean isStateSatisfiedBy(DataType[] dataValues) {
-		for (int i = 0; i < this.conditions.length; i++) {
+	public boolean isStateSatisfiedBy(DataType[] dataValues) 
+	{
+		for (int i = 0; i < this.conditions.length; i++) 
+		{
 			Condition stateCondition = this.conditions[i];
 			if (!stateCondition.isConditionSatisfiedBy(dataValues[i]))
+			{
 				return false;
+			}
 		}
 		return true;
 	}
 
-	boolean isStateEqual(DataType[] dataValues) {
-		for (int i = 0; i < this.conditions.length; i++) {
+	public boolean isStateEqual(DataType[] dataValues) 
+	{
+		for (int i = 0; i < this.conditions.length; i++) 
+		{
 			Condition stateCondition = this.conditions[i];
 			if (!stateCondition.isConditionEqual(dataValues[i], dataValues[i + 1]))
+			{
 				return false;
+			}
 		}
 		return true;
 	}
@@ -90,20 +104,39 @@ public class State {
 	 * exist in the current FSA.
 	 * @param nextStateIndex The index of the next state
 	 */
-	void addTransitionIfNotPresent(int nextStateIndex) {
+	public void addTransitionIfNotPresent(int nextStateIndex) 
+	{
 		if (!this.transitions.contains(nextStateIndex))
+		{
 			this.transitions.add(nextStateIndex);
+		}
 	}
 
-	
 	/**
 	 * @return true if there is a transition between this state and the state
 	 * at the provided index
 	 */
-	boolean isTransitionPresent(int nextStateIndex) {
+	public boolean isTransitionPresent(int nextStateIndex) {
 		return this.transitions.contains(nextStateIndex);
 	}
 
+	/** Generate a String representation of this state */
+	public String toString() 
+	{
+		String output = "\tConditions: ";
+		for (Condition c : this.conditions) 
+		{
+			output += c.toString() + " ";
+		}
+		output += "\n\t\tTransitions: ";
+		for (int i = 0; i < transitions.size(); i++) 
+		{
+			output += transitions.get(i);
+			if (i != transitions.size() - 1)
+				output += ", ";
+		}
+		return output;
+	}
 	
 	/**
 	 * @return the index this state is stored at in the array of states for
@@ -113,19 +146,13 @@ public class State {
 		return index;
 	}
 	
-	
-	/** Generate a String representation of this state */
-	public String toString() {
-		String output = "\tConditions: ";
-		for (Condition c : this.conditions) {
-			output += c.toString() + " ";
-		}
-		output += "\n\t\tTransitions: ";
-		for (int i = 0; i < transitions.size(); i++) {
-			output += transitions.get(i);
-			if (i != transitions.size() - 1)
-				output += ", ";
-		}
-		return output;
+	public Condition[] getConditions() 
+	{
+		return conditions;
+	}
+
+	public ArrayList<Integer> getTransitions() 
+	{
+		return transitions;
 	}
 }

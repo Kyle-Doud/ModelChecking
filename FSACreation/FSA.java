@@ -15,24 +15,19 @@ public class FSA {
 	 */
 	private int numVariables;
 	private ArrayList<State> states;
-
-	
+	private String[] varNames;
 	/** 
 	 * Constructor for a new, empty FSA.
 	 * @param numVariables The number of variables recorded from the model
-	 * 		& also the number of variables considered when evaluating states
+	 * 		and also the number of variables considered when evaluating states
+	 * @param varNames the names of the variables in the evidence
 	 */
-	public FSA(int numVariables) {
+	public FSA(int numVariables, String[] varNames) 
+	{
 		this.numVariables = numVariables;
+		this.varNames = varNames;
 		states = new ArrayList<State>();
 	}
-	
-	
-	/** @return the number of states that have been defined for this FSA */
-	public int getNumStates() {
-		return this.states.size();
-	}
-
 	
 	/**
 	 * Parse a matrix of data obtained from the execution of the model, and add
@@ -60,7 +55,6 @@ public class FSA {
 		}
 	}
 	
-	
 	/**
 	 * Searches the existing states in the FSA for one that is satisfied by the
 	 * specified values. If no matching state is found, a new state is created
@@ -68,8 +62,10 @@ public class FSA {
 	 * @param dataValues the target values of each variable in this state
 	 * @return the index in the states array of the state these values satisfy
 	 */
-	private int retrieveState(DataType[] dataValues) {
-		for (int i = 0; i < states.size(); i++) {
+	private int retrieveState(DataType[] dataValues) 
+	{
+		for (int i = 0; i < states.size(); i++) 
+		{
 			if (states.get(i).isStateSatisfiedBy(dataValues))
 				return i;
 		}
@@ -82,9 +78,11 @@ public class FSA {
 	/**
 	 * Create a String representation of this FSA.
 	 */
-	public String toString() {
+	public String toString() 
+	{
 		String output = "Number of states in the FSA: " + states.size() + "\n";
-		for (int i = 0; i < states.size(); i++) {
+		for (int i = 0; i < states.size(); i++) 
+		{
 			State s = states.get(i);
 			output += "\nState " + s.getIndex() + ":";
 			output += s.toString();
@@ -92,8 +90,28 @@ public class FSA {
 		return output;
 	}
 	
+	public ArrayList<State> getStates() 
+	{
+		return states;
+	}
 	
+	/** @return the number of states that have been defined for this FSA */
+	public int getNumStates() 
+	{
+		return this.states.size();
+	}
 	
+	public String[] getVarNames() 
+	{
+		return varNames;
+	}
+
+	public void setVarNames(String[] varNames) 
+	{
+		this.varNames = varNames;
+	}
+
+
 	/**
 	 * This class is used to define states 'manually' from information provided
 	 * by the DSL. 
@@ -110,8 +128,7 @@ public class FSA {
 		 * Constructor for a new StateDefinitionManager. This object will allow
 		 * you to define a new state for the FSA manually (as opposed to
 		 * defining new states from the data recorded). 
-		 * @param varNameIndices
-		 * @param varTypes
+		 * @param varNameIndices TODO: comment
 		 */
 		public StateDefinitionBuilder(HashMap<String, Integer> varNameIndices) {
 			variableNameIndexMap = varNameIndices;
