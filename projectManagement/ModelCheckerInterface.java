@@ -13,7 +13,7 @@ import java.util.Collections;
 import FSACreation.FSA;
 import FSACreation.State;
 
-public class IOManager {
+public class ModelCheckerInterface {
 	
 	FSA fsa;
 	
@@ -112,8 +112,8 @@ public class IOManager {
 
 	private String defineState(State s) {
 		String out = "active proctype state" + s.getIndex() + "()\n"
-		+ "{"
-			+ "begin: channel?" + s.getTransitions().get(0) + ";"
+		+ "{\n"
+			+ "begin: channel?s" + s.getTransitions().get(0).getToState().getIndex() + ";\n"
 			+ "end:\n"
 		+"}\n";
 		return out;
@@ -128,7 +128,14 @@ public class IOManager {
 		String out = "mtype = {";
 		for(int i = 0; i < fsa.getNumStates(); i++)
 		{
-			out += "s" + i + ", ";
+			if(i == fsa.getNumStates() - 1)
+			{
+				out += "s" + i;
+			}
+			else
+			{
+				out += "s" + i + ", ";
+			}
 		}
 		out += "}\n";
 		return out;

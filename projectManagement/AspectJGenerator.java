@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 
-public class FileGenerator {
+public class AspectJGenerator {
 
 	String answerPackage; 	// = "answers"; // name of the package the AspectJ package will be located in
 	String answerName; 		//  = "Answer5"; // name of the AspectJ answer file and class
@@ -30,21 +30,11 @@ public class FileGenerator {
 	 * @param modelPackageName The fully qualified name of the package and class
 	 *  in which the model of interest is located
 	 */
-	public FileGenerator(String modelPackageName) {
+	public AspectJGenerator(String modelPackageName) {
 		this.modelPackageName = modelPackageName;
 		this.numberMethods = -1;
 		defineValidTypes();
 	}
-	
-	
-	public int getNumVariables() {
-		return numberMethods;
-	}
-	
-	public String getDataFileLocation() {
-		return dataFileLocation;
-	}
-	
 	
 	/** 
 	 * These are the valid types that this program supports by having a
@@ -60,7 +50,6 @@ public class FileGenerator {
 		validTypes.put("long", "long");
 		validTypes.put("string", "String");
 	}
-	
 	
 	/**
 	 * Generates the AspectJ code needed to record executions of the specified
@@ -78,13 +67,13 @@ public class FileGenerator {
 	public void generate(String answerPackageName, String answerFileName, 
 			String[] methods) {
 		// strips any file extension from the answer file name
-		if (answerFileName.indexOf(".") > 0)
-			this.answerName =
-					answerFileName.substring(0, answerFileName.indexOf("."));
+		this.answerName = stripExtension(answerFileName);
+		
 		if (methods.length < 1)
+		{
 			throw new NullPointerException("Must provide information about one" 
 					+ "or more methods to record.");
-		this.answerName = answerFileName;
+		}
 		this.answerPackage = answerPackageName;
 		// this can be modified to a different location that is better suited
 		this.dataFileLocation = "src/" + answerPackage + "/" + answerName + "Data.txt";
@@ -95,6 +84,15 @@ public class FileGenerator {
 		String aspectContentToWrite = getAspectJContent(mList);
 		writeAspectJContentToFile(aspectContentToWrite);
 		writeVariableListToFile(mList);
+	}
+	
+	private String stripExtension(String answerFileName)
+	{
+		if (answerFileName.indexOf(".") > 0)
+		{
+			return answerFileName.substring(0, answerFileName.indexOf("."));
+		}
+		return answerFileName;
 	}
 	
 	
@@ -387,6 +385,14 @@ public class FileGenerator {
 			return false;
 		}
 		return true;
+	}
+	
+	public int getNumVariables() {
+		return numberMethods;
+	}
+	
+	public String getDataFileLocation() {
+		return dataFileLocation;
 	}
 
 }
