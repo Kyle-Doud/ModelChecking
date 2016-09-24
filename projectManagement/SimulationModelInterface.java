@@ -2,11 +2,12 @@ package projectManagement;
 
 import java.io.IOException;
 
-public class ModelInterface {
+public class SimulationModelInterface {
 	String modelName;
 	String parametersFile;
 	String modelPath;
-	public ModelInterface(String modelPathIn, String modelNameIn, String parametersFileIn)
+	
+	public SimulationModelInterface(String modelPathIn, String modelNameIn, String parametersFileIn)
 	{
 		this.modelName = modelNameIn;
 		this.modelPath = modelPathIn;

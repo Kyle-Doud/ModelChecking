@@ -52,7 +52,7 @@ public class HypothesisTesting {
 		{
 			ltlFormula = ltlFormula.replaceFirst("\\$", e);
 		}
-		return ltlFormula;
+		return "P=? [" + ltlFormula + "]";
 	}
 	
 	private ArrayList<String> replaceCharsWithEvents(String ltlFormula) {

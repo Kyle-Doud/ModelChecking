@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import projectManagement.AspectJGenerator;
-import projectManagement.ModelCheckerInterface;
-import projectManagement.ModelInterface;
+import projectManagement.SpinInterface;
+import projectManagement.SimulationModelInterface;
 import DataRecording.DataRecordManager;
 import DataRecording.DataType;
 import Evidence.HypothesisTesting;
@@ -33,7 +33,7 @@ public class Main {
 //		String modelPath = "C:/RepastSimphony-2.3.1/models/Schelling";
 //		String modelName = "uchicago.src.sim.schelling.SchellingModel";
 //		String parametersPath = "C:/RepastSimphony-2.3.1/models/Schelling/batch/batch_params.xml";
-//		ModelInterface schelling = new ModelInterface(modelPath, modelName, parametersPath);
+//		SimulationModelInterface schelling = new SimulationModelInterface(modelPath, modelName, parametersPath);
 //		schelling.runSimulation(5);
 		
 		//create markov chain
@@ -43,9 +43,8 @@ public class Main {
 		FSA fsa = new FSA(numVars, dataMgr.getVariableNames());
         fsa.developFSAFromData(matrix);
         
-		ModelCheckerInterface iom = new ModelCheckerInterface();
-		iom.generatePromelaSource("ISHC", LTL, fsa);
-		iom.runPromelaSource("ISHC");
+//		SpinInterface si = new SpinInterface("ISHC", LTL, fsa);
+//		si.runPromelaSource("ISHC");
 		
 	}
 
