@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import projectManagement.AspectJGenerator;
+import projectManagement.PrismInterface;
 import projectManagement.SpinInterface;
 import projectManagement.SimulationModelInterface;
 import DataRecording.DataRecordManager;
@@ -42,6 +43,9 @@ public class Main {
 		ArrayList<DataType[]> matrix = dataMgr.getFullMatrixFromDataFile();
 		FSA fsa = new FSA(numVars, dataMgr.getVariableNames());
         fsa.developFSAFromData(matrix);
+        
+        PrismInterface pi = new PrismInterface("ISHC", LTL, fsa);
+        pi.runPrismSource();
         
 //		SpinInterface si = new SpinInterface("ISHC", LTL, fsa);
 //		si.runPromelaSource("ISHC");

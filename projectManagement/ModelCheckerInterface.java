@@ -10,7 +10,7 @@ public class ModelCheckerInterface
 	
 	/**
 	 * createParentDirectoryIfDNE
-	 * deprecated
+	 * 
 	 * 
 	 */
 	private void createParentDirectoryIfDNE()
