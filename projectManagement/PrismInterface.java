@@ -31,7 +31,7 @@ public class PrismInterface extends ModelCheckerInterface
 	{
 		try{
 	        String cdCmd = "cd " + System.getProperty("user.dir") + "\\ModelChecking\\" + modelName + "_" + findHighestVersion(modelName) + "\\";
-	        String prismCmd = "prism " + modelName + ".pm" + " " + modelName + ".pctl";
+	        String prismCmd = "xprism " + modelName + ".pm" + " " + modelName + ".pctl";
 			ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", cdCmd + " && " + prismCmd);
 	        builder.redirectErrorStream(true);
 	        Process p = builder.start();
