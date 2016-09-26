@@ -19,11 +19,11 @@ import FSACreation.FSA;
 public class Main {
 	public static void main(String[] args)
 	{
-//		Query q = new Query("inflammation occurs after inflammatoryAgent > inflammatoryAgentThreshold");
-//		HypothesisTesting h = new HypothesisTesting("E1", q);
-//		String LTL = h.toLTL();
+		Query q = new Query("inflammation eventually exists after inflammatoryAgent > inflammatoryAgentThreshold");
+		HypothesisTesting h = new HypothesisTesting("E1", q);
+		String LTL = h.toLTL();
 //		System.out.println(LTL);
-		String LTL = "deleteme";
+//		String LTL = "deleteme";
 		
 		//Add FSA code to model
 //		String[] inputList = {"step()", "die()"};

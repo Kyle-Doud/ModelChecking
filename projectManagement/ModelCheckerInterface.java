@@ -3,7 +3,9 @@ package projectManagement;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class ModelCheckerInterface 
 {
@@ -73,16 +75,31 @@ public class ModelCheckerInterface
 			});
 			if(directories.length > 0)
 			{
-			ArrayList<String> folders = new ArrayList<String>();
-				for(int i = 0; i < directories.length; i++)
-				{
-					if(directories[i].contains(modelName))
-					{
-						folders.add(directories[i]);
-					}
-				}
-				Collections.sort(folders);
-				String highestFolder = folders.get(folders.size()-1);
+//			ArrayList<String> folders = new ArrayList<String>();
+//				for(int i = 0; i < directories.length; i++)
+//				{
+//					if(directories[i].contains(modelName))
+//					{
+//						folders.add(directories[i]);
+//					}
+//				}
+				Arrays.sort(directories, new Comparator<String>(){
+		            @Override
+		            public int compare(String o1, String o2) {
+		            	String num1 = o1.substring(o1.indexOf('_') + 1);
+		            	String num2 = o2.substring(o2.indexOf('_') + 1);
+		                if(Integer.parseInt(num1) < Integer.parseInt(num2))
+		                {
+		                	return -1;
+		                }
+		                else if(Integer.parseInt(num1) > Integer.parseInt(num2))
+		                {
+		                	return 1;
+		                }
+		                return 0;
+		            }
+				});
+				String highestFolder = directories[directories.length - 1];
 				highestFolderNum = Integer.parseInt(highestFolder.substring(highestFolder.indexOf('_') + 1));
 			}
 			return highestFolderNum;

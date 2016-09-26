@@ -39,6 +39,7 @@ public class Query {
 			if(query.contains(patternIdentifier[i]))
 			{
 				patternType = patterns[i];
+				return;
 			}
 		}
 	}
