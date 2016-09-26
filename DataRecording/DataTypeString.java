@@ -24,6 +24,7 @@ public class DataTypeString implements DataType {
 		this.initialized = false;
 	}
 	
+	@Override
 	public boolean isInitialized() {
 		return initialized;
 	}
@@ -44,6 +45,7 @@ public class DataTypeString implements DataType {
 	
 	
 	/** @return A String representation of this DataValue */
+	@Override
 	public String toString() {
 		if (initialized)
 			return dataValue + "";

@@ -1,3 +1,4 @@
+package experimentDesign;
 
 public class ControlVariables {
 	String controlName;

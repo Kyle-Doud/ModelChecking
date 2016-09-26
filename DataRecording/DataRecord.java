@@ -13,6 +13,7 @@ public class DataRecord {
 		this.data = dataToRecord;
 	}
 	
+	@Override
 	public String toString() {
 		return (variableName + "\t" + data);
 	}

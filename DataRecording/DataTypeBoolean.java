@@ -35,6 +35,7 @@ public class DataTypeBoolean implements DataType {
 	}
 	
 	
+	@Override
 	public boolean isInitialized() {
 		return initialized;
 	}
@@ -59,6 +60,7 @@ public class DataTypeBoolean implements DataType {
 	
 	
 	/** @return A String representation of this DataValue */
+	@Override
 	public String toString() {
 		if (initialized && dataValue)
 			return "true";

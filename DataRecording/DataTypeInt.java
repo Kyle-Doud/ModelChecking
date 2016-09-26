@@ -27,6 +27,7 @@ public class DataTypeInt implements DataType {
 	}
 	
 	
+	@Override
 	public boolean isInitialized() {
 		return initialized;
 	}
@@ -53,6 +54,7 @@ public class DataTypeInt implements DataType {
 	
 	
 	/** @return A String representation of this DataValue */
+	@Override
 	public String toString() {
 		if (initialized)
 			return dataValue + "";

@@ -144,7 +144,7 @@ public class HypothesisTesting {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			
 			//parse using builder to get DOM representation of the XML file
-			dom = db.parse("C:\\Users\\krdou_000\\Documents\\Repast Workspace\\LTLtoXML\\Patterns.xml");
+			dom = db.parse("C:\\Users\\krdou_000\\Documents\\Repast Workspace\\ModelChecking\\Patterns.xml");
 			
 
 		}catch(ParserConfigurationException pce) {

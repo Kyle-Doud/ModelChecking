@@ -1,11 +1,11 @@
 ## Synopsis
 
-At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
+This program is used to process input from a domain specific language for domain specific simulation experiments.  The program takes a set of evidences and hypotheses from the DSL and creates an observer of the simulation to record data related to these evidence/hypotheses.  It converts the simulation data to a discrete time markov chain which is validated using a probabilistic model checker.
 
 ## Code Example
 
-		Query q = new Query("inflammation eventually exists after inflammatoryAgent > inflammatoryAgentThreshold");
-		HypothesisTesting h = new HypothesisTesting("E1", q);
+		Property p = new Property("inflammation eventually exists after inflammatoryAgent > inflammatoryAgentThreshold");
+		HypothesisTesting h = new HypothesisTesting("E1", p);
 		String LTL = h.toLTL();
 		
 		//Add FSA code to model

@@ -1,3 +1,4 @@
+package experimentDesign;
 
 public class Experiment {
 	String gName, gType, description;

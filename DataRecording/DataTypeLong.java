@@ -28,6 +28,7 @@ public class DataTypeLong implements DataType {
 	}
 	
 	
+	@Override
 	public boolean isInitialized() {
 		return initialized;
 	}
@@ -56,6 +57,7 @@ public class DataTypeLong implements DataType {
 	
 	
 	/** @return A String representation of this long DataValue */
+	@Override
 	public String toString() {
 		if (initialized)
 			return dataValue + "";

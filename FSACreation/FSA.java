@@ -86,6 +86,7 @@ public class FSA {
 	/**
 	 * Create a String representation of this FSA.
 	 */
+	@Override
 	public String toString() 
 	{
 		String output = "Number of states in the FSA: " + states.size() + "\n";
