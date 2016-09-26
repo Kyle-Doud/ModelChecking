@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
  */
 public class HypothesisTesting {
 	String hypothesisName;
-	Query query;
+	Property property;
 	Document dom;
 	/**
 	 * Constructor for HypothesisTesting
@@ -28,10 +28,10 @@ public class HypothesisTesting {
 	 * @param name The identifier for the hypothesis
 	 * @param q The temporal query from the DSL
 	 */
-	public HypothesisTesting(String name, Query q )
+	public HypothesisTesting(String name, Property q )
 	{
 		this.hypothesisName = name;
-		this.query = q;
+		this.property = q;
 	}
 	
 	/**
@@ -94,7 +94,7 @@ public class HypothesisTesting {
 		}
 		for(int i = 0; i < eventListInOrder.size(); i++)
 		{
-			eventListInOrder.set(i, query.getEvents().get(letterOrder.get(eventListInOrder.get(i))));
+			eventListInOrder.set(i, property.getEvents().get(letterOrder.get(eventListInOrder.get(i))));
 		}
 		return eventListInOrder;
 	}
@@ -122,12 +122,12 @@ public class HypothesisTesting {
 	 * 
 	 * @return hypothesisName The identifier for this hypothesis.
 	 */
-	public Query getQuery() {
-		return query;
+	public Property getQuery() {
+		return property;
 	}
 
-	public void setQuery(Query q) {
-		this.query = q;
+	public void setQuery(Property q) {
+		this.property = q;
 	}
 	
 	/**
@@ -165,12 +165,12 @@ public class HypothesisTesting {
 		String formula = "not identified";
 		Element docEle = dom.getDocumentElement();
 		
-		NodeList nl = docEle.getElementsByTagName(query.getPatternType());
+		NodeList nl = docEle.getElementsByTagName(property.getPatternType());
 		if(nl != null && nl.getLength() > 0) {
 			for(int i = 0 ; i < nl.getLength();i++) 
 			{
 				Element el = (Element)nl.item(i);
-				formula = getTextValue(el, query.getPostfix());
+				formula = getTextValue(el, property.getPostfix());
 			}
 		}
 		return formula;

@@ -3,7 +3,7 @@ package Evidence;
 import java.util.ArrayList;
 
 
-public class Query {
+public class Property {
 
 	private ArrayList<String> events = new ArrayList<String>();
 	private String query;
@@ -23,7 +23,7 @@ public class Query {
 	 * 
 	 * @param queryIn The query from the DSL as a string. For example, "LookingForNewSite = true is absent"
 	 */
-	public Query(String queryIn)
+	public Property(String queryIn)
 	{
 		this.query = queryIn;
 		detectEvents();
