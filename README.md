@@ -4,28 +4,39 @@ At the top of the file there should be a short introduction and/ or overview tha
 
 ## Code Example
 
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+		Query q = new Query("inflammation eventually exists after inflammatoryAgent > inflammatoryAgentThreshold");
+		HypothesisTesting h = new HypothesisTesting("E1", q);
+		String LTL = h.toLTL();
+		
+		//Add FSA code to model
+		String[] inputList = {"step()", "die()"};
+		AspectJGenerator fileMgr = new AspectJGenerator("segregation.SegregationBatch");
+		fileMgr.generate("answers", "Answer1", inputList);
+		
+		//run model
+		String modelPath = "C:/RepastSimphony-2.3.1/models/Schelling";
+		String modelName = "uchicago.src.sim.schelling.SchellingModel";
+		String parametersPath = "C:/RepastSimphony-2.3.1/models/Schelling/batch/batch_params.xml";
+		SimulationModelInterface schelling = new SimulationModelInterface(modelPath, modelName, parametersPath);
+		schelling.runSimulation(5);
+		
+		//create markov chain
+		int numVars = 3;
+		DataRecordManager dataMgr = new DataRecordManager(numVars, "C:/Users/krdou_000/Documents/Repast Workspace/ModelChecking/sampleData.txt");
+		ArrayList<DataType[]> matrix = dataMgr.getFullMatrixFromDataFile();
+		FSA fsa = new FSA(numVars, dataMgr.getVariableNames());
+        fsa.developFSAFromData(matrix);
+        
+        PrismInterface pi = new PrismInterface("ISHC", LTL, fsa);
+        pi.runPrismSource();
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+Automating model verification for experimental simulation models based on input from a domain specific language.
 
 ## Installation
 
-Provide code examples and explanations of how to get the project.
+Dependencies: 
 
-## API Reference
-
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
-
-## Tests
-
-Describe and show how to run the tests with code examples.
-
-## Contributors
-
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
-
-## License
-
-A short snippet describing the license (MIT, Apache, etc.)
+PRISM Model Checker 
+http://www.prismmodelchecker.org/manual/InstallingPRISM/Instructions#source
