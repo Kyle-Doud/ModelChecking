@@ -78,7 +78,7 @@ public class FSA {
 				return i;
 		}
 		int newIndex = states.size();
-		states.add(new State(newIndex, dataValues));
+		states.add(new State(newIndex, dataValues, varNames));
 		return newIndex;
 	}
 	
@@ -160,7 +160,7 @@ public class FSA {
 				}
 			}
 			int newIndex = states.size();
-			states.add(new State(newIndex, dataValues));
+			states.add(new State(newIndex, dataValues, varNames));
 			return newIndex;
 		}
 		

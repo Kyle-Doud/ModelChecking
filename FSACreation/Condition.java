@@ -11,18 +11,24 @@ public class Condition {
 	private boolean initialized;
 	private DataType low;
 	private DataType high;
-	//private int agentId;
+	private String conditionId;
 
 	
+	public String getConditionId() {
+		return conditionId;
+	}
+
+
 	/**
 	 * Instantiates a Condition object that represents a single value
 	 * @param singleConditionValue A single value
 	 */
-	public Condition(DataType singleConditionValue) {
+	public Condition(DataType singleConditionValue, String conditionIdentifier) {
 		if (singleConditionValue.isInitialized()) {
 			initialized = true;
 			this.low = singleConditionValue;
 			this.high = singleConditionValue;
+			this.conditionId = conditionIdentifier;
 		} else {
 			this.initialized = false;
 		}

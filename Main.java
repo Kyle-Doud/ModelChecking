@@ -11,7 +11,7 @@ import FSACreation.FSA;
 public class Main {
 	public static void main(String[] args)
 	{
-		Property p = new Property("inflammation eventually exists");// after inflammatoryAgent > inflammatoryAgentThreshold");
+		Property p = new Property("s>0 eventually exists");// after inflammatoryAgent > inflammatoryAgentThreshold");
 		HypothesisTesting h = new HypothesisTesting("E1", p);
 		String LTL = h.toLTL();
 		System.out.println(LTL);
@@ -35,7 +35,7 @@ public class Main {
 		FSA fsa = new FSA(numVars, dataMgr.getVariableNames());
         fsa.developFSAFromData(matrix);
         
-        PrismInterface pi = new PrismInterface("ISHC", LTL, fsa);
+        PrismInterface pi = new PrismInterface("ISHC", LTL, fsa, dataMgr);
         pi.runPrismSource();
 	}
 

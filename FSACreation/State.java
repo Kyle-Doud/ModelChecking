@@ -15,12 +15,12 @@ public class State {
 	 * @param newDataValues Values representing the condition values
 	 * 		for each variable in this state.
 	 */
-	public State(int newIndex, DataType[] newDataValues) 
+	public State(int newIndex, DataType[] newDataValues, String[] newDataValueIdentifiers) 
 	{
 		Condition[] newConditions = new Condition[newDataValues.length]; 
 		// state is defined by parsing data. there will be no range conditions
 		for (int i = 0; i < newDataValues.length; i++)
-			newConditions[i] = new Condition(newDataValues[i]);
+			newConditions[i] = new Condition(newDataValues[i], newDataValueIdentifiers[i]);
 		this.index = newIndex;
 		this.conditions = newConditions;
 		transitions = new ArrayList<Transition>();
