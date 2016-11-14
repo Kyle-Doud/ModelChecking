@@ -2,11 +2,13 @@ package FSACreation;
 import java.util.ArrayList;
 
 import DataRecording.DataType;
+import DataRecording.DataTypeString;
 
 public class State {
 
 	private int index;
-	private Condition[] conditions;
+	private DataType[] values;
+	private String[] identifiers;
 	private ArrayList<Transition> transitions;
 
 	/**
@@ -15,61 +17,12 @@ public class State {
 	 * @param newDataValues Values representing the condition values
 	 * 		for each variable in this state.
 	 */
-	public State(int newIndex, DataType[] newDataValues, String[] newDataValueIdentifiers) 
-	{
-		Condition[] newConditions = new Condition[newDataValues.length]; 
-		// state is defined by parsing data. there will be no range conditions
-		for (int i = 0; i < newDataValues.length; i++)
-			newConditions[i] = new Condition(newDataValues[i], newDataValueIdentifiers[i]);
+	public State(int newIndex, String[] newDataValueIdentifiers, DataType[] newDataValues) 
+	{ 
 		this.index = newIndex;
-		this.conditions = newConditions;
+		this.values = newDataValues;
+		this.identifiers = newDataValueIdentifiers;
 		transitions = new ArrayList<Transition>();
-	}
-
-
-	/**
-	 * Create a new State object. This is used when defining new states 
-	 * that represent ranges of values.
-	 * @param newIndex Index this state is stored at in the FSA's states array
-	 * @param newDataValues Values representing the condition values
-	 * for each variable in this state.
-	 */
-	public State(int newIndex, Condition[] newConditions) {
-		this.index = newIndex;
-		this.conditions = newConditions;
-		transitions = new ArrayList<Transition>();
-	}
-
-
-	/**
-	 * Determines whether a set of values fit the definition of this state.
-	 * @param dataValues Values of variables at a specific point of time
-	 * @return true if these values satisfy every condition of this state
-	 */
-	public boolean isStateSatisfiedBy(DataType[] dataValues) 
-	{
-		for (int i = 0; i < this.conditions.length; i++) 
-		{
-			Condition stateCondition = this.conditions[i];
-			if (!stateCondition.isConditionSatisfiedBy(dataValues[i]))
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public boolean isStateEqual(DataType[] dataValues) 
-	{
-		for (int i = 0; i < this.conditions.length; i++) 
-		{
-			Condition stateCondition = this.conditions[i];
-			if (!stateCondition.isConditionEqual(dataValues[i], dataValues[i + 1]))
-			{
-				return false;
-			}
-		}
-		return true;
 	}
 
 	/**
@@ -78,7 +31,7 @@ public class State {
 	 * exist in the current FSA.
 	 * @param nextStateIndex The index of the next state
 	 */
-	public void addTransitionIfNotPresent(Transition t) 
+	public void addTransition(Transition t) 
 	{
 		if (!this.transitions.contains(t))
 		{
@@ -115,10 +68,10 @@ public class State {
 	@Override
 	public String toString() 
 	{
-		String output = "\tConditions: ";
-		for (Condition c : this.conditions) 
+		String output = "Values:\n";
+		for(int i = 0; i < identifiers.length; i++)
 		{
-			output += c.toString() + " ";
+			output += identifiers[i] + " = " + values[i] + "\n";
 		}
 		output += "\n\t\tTransitions: ";
 		for (int i = 0; i < transitions.size(); i++) 
@@ -134,13 +87,33 @@ public class State {
 	 * @return the index this state is stored at in the array of states for
 	 * the current FSA
 	 */
-	public int getIndex() {
+	public int getIndex() 
+	{
 		return index;
 	}
 
-	public Condition[] getConditions() 
+	public String[] getIdentifiers() {
+		return identifiers;
+	}
+
+	public DataType[] getValues() {
+		return values;
+	}
+	
+	public DataType getValue(String identifier)
 	{
-		return conditions;
+		for(int i = 0; i < identifiers.length; i++)
+		{
+			if(identifier.compareTo(identifiers[i]) == 0)
+			{
+				return values[i];
+			}
+		}
+		return new DataTypeString("error");
+	}
+
+	public void setValues(DataType[] values) {
+		this.values = values;
 	}
 
 	public ArrayList<Transition> getTransitions() 

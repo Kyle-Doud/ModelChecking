@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import projectManagement.PrismInterface;
 import DataRecording.DataRecordManager;
 import DataRecording.DataType;
+import DataRecording.DataTypeInt;
 import Evidence.HypothesisTesting;
 import Evidence.Property;
-import FSACreation.FSA;
+import FSACreation.Condition;
+import FSACreation.MarkovChain;
 
 public class Main {
 	public static void main(String[] args)
 	{
-		Property p = new Property("s>0 eventually exists");// after inflammatoryAgent > inflammatoryAgentThreshold");
+		Property p = new Property("inflammation>-1 eventually exists");// after inflammatoryAgent > inflammatoryAgentThreshold");
 		HypothesisTesting h = new HypothesisTesting("E1", p);
 		String LTL = h.toLTL();
 		System.out.println(LTL);
@@ -32,10 +34,13 @@ public class Main {
 		int numVars = 3;
 		DataRecordManager dataMgr = new DataRecordManager(numVars, "C:/Users/krdou_000/Documents/Repast Workspace/ModelChecking/ModelChecking/sampleData.txt");
 		ArrayList<DataType[]> matrix = dataMgr.getFullMatrixFromDataFile();
-		FSA fsa = new FSA(numVars, dataMgr.getVariableNames());
-        fsa.developFSAFromData(matrix);
+		DataTypeInt in = new DataTypeInt(-1);
+		Condition c = new Condition("inflammation", ">", in);
+		Condition[] ca = {c};
+		MarkovChain markovChain = new MarkovChain(numVars, dataMgr.getVariableNames(), ca);
+        markovChain.developFSAFromData(matrix);
         
-        PrismInterface pi = new PrismInterface("ISHC", LTL, fsa, dataMgr);
+        PrismInterface pi = new PrismInterface("ISHC", LTL, markovChain, dataMgr);
         pi.runPrismSource();
 	}
 

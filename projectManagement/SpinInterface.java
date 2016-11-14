@@ -7,14 +7,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import FSACreation.FSA;
+import FSACreation.MarkovChain;
 import FSACreation.State;
 
 public class SpinInterface extends ModelCheckerInterface
 {
-	FSA fsa;
+	MarkovChain markovChain;
 	
-	public SpinInterface(String modelName, String LTLIn, FSA fsaIn)
+	public SpinInterface(String modelName, String LTLIn, MarkovChain fsaIn)
 	{
 		generateFolder(modelName);
 		createPromelaModel(fsaIn);
@@ -26,9 +26,9 @@ public class SpinInterface extends ModelCheckerInterface
 	 * deprecated
 	 * @param fsaIn
 	 */
-	private void createPromelaModel(FSA fsaIn)
+	private void createPromelaModel(MarkovChain fsaIn)
 	{
-		this.fsa = fsaIn;
+		this.markovChain = fsaIn;
 		String ltlDefinitions = defineLTLProperties();
 		String mtype = defineMtype();
 		String mChannel = defineChannel();
@@ -44,7 +44,7 @@ public class SpinInterface extends ModelCheckerInterface
 	 */
 	private String defineStates() {
 		String out = "";
-		ArrayList<State> states = fsa.getStates();
+		ArrayList<State> states = markovChain.getStates();
 		for(State s : states)
 		{
 			out += defineState(s);
@@ -84,9 +84,9 @@ public class SpinInterface extends ModelCheckerInterface
 	 */
 	private String defineMtype() {
 		String out = "mtype = {";
-		for(int i = 0; i < fsa.getNumStates(); i++)
+		for(int i = 0; i < markovChain.getNumStates(); i++)
 		{
-			if(i == fsa.getNumStates() - 1)
+			if(i == markovChain.getNumStates() - 1)
 			{
 				out += "s" + i;
 			}

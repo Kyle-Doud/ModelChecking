@@ -8,7 +8,7 @@ import DataRecording.DataTypeInt;
 import DataRecording.DataTypeLong;
 import DataRecording.DataTypeString;
 
-public class FSA {
+public class MarkovChain {
 	
 	/* Number of methods that are of interest in the model, and are recorded.
 	 * Number of variables are used as conditions for the States in this FSA.
@@ -16,16 +16,19 @@ public class FSA {
 	private int numVariables;
 	private ArrayList<State> states;
 	private String[] varNames;
+	private Condition[] conditions;
+	
 	/** 
 	 * Constructor for a new, empty FSA.
 	 * @param numVariables The number of variables recorded from the model
 	 * 		and also the number of variables considered when evaluating states
 	 * @param varNames the names of the variables in the evidence
 	 */
-	public FSA(int numVariables, String[] varNames) 
+	public MarkovChain(int numVariables, String[] varNames, Condition[] conditionsIn) 
 	{
 		this.numVariables = numVariables;
 		this.varNames = varNames;
+		this.conditions = conditionsIn;
 		states = new ArrayList<State>();
 	}
 	
@@ -42,13 +45,14 @@ public class FSA {
 		State currentState = states.get(firstStateIndex);
 
 		// Analyze the rest of the data, and add new states to the FSA if needed
-		for (int numAnalyzed = 1; numAnalyzed < allData.size(); numAnalyzed++) {
+		for (int numAnalyzed = 1; numAnalyzed < allData.size(); numAnalyzed++) 
+		{
 		 	DataType[] nextDataSet = allData.get(numAnalyzed);
 		 	Transition t;
-			if (currentState.isStateSatisfiedBy(nextDataSet)) 
+			if (isSameState(nextDataSet, currentState))//self loop
 			{
 				t = new Transition(currentState, currentState);// add self loop
-				currentState.addTransitionIfNotPresent(t);//increments occurances if present
+				currentState.addTransition(t);//increments occurances if present
 				currentState.calculateTransitionWeights();// balance transition probabilities
 			} 
 			else 
@@ -56,11 +60,44 @@ public class FSA {
 				int nextStateIndex = checkStateList(nextDataSet);
 				State nextState = states.get(nextStateIndex);//next index created by checkStateList..
 				t = new Transition(nextState, currentState);
-				currentState.addTransitionIfNotPresent(t);//increments occurances if present
+				currentState.addTransition(t);//increments occurances if present
 				currentState.calculateTransitionWeights();
 				currentState = nextState;
 			}
 		}
+	}
+	
+	/**
+	 * Determines whether a set of values fit the definition of this state,
+	 * taking into consideration dsl-defined conditions.
+	 * @param dataValues Values of variables at a specific point of time
+	 * @param stateIn the state we are comparing to
+	 * @return true if these values satisfy every condition of this state
+	 */
+	private boolean isSameState(DataType[] dataValues, State stateIn) 
+	{
+		boolean returnValue = true;
+		for(int i = 0; i < dataValues.length; i++)//check if each of the values is literally the same
+		{
+			if(dataValues[i].compareTo(stateIn.getValues()[i]) != 0)
+			{
+				returnValue = false;
+			}
+		}
+		ArrayList<Integer> matchedConditionsOld = classifyStateByConditions(dataValues);
+		ArrayList<Integer> matchedConditionsNew = classifyStateByConditions(stateIn);
+		if(matchedConditionsNew.size() != matchedConditionsOld.size())//make sure they're the same size before making the next check
+		{
+			return false;
+		}
+		for(int j = 0; j < matchedConditionsNew.size(); j++)//check if they actually meet the same conditions
+		{
+			if(!(matchedConditionsNew.get(j) == matchedConditionsOld.get(j)))
+			{
+				returnValue =  false;
+			}
+		}
+		return returnValue;
 	}
 	
 	/**
@@ -74,12 +111,41 @@ public class FSA {
 	{
 		for (int i = 0; i < states.size(); i++) 
 		{
-			if (states.get(i).isStateSatisfiedBy(dataValues))
+			if (isSameState(dataValues, states.get(i)))
 				return i;
 		}
 		int newIndex = states.size();
-		states.add(new State(newIndex, dataValues, varNames));
+		states.add(new State(newIndex, varNames, dataValues));
 		return newIndex;
+	}
+	
+	public ArrayList<Integer> classifyStateByConditions(DataType[] dataValues)
+	{
+		ArrayList<Integer> matchedConditions = new ArrayList<Integer>();
+		for (int i = 0; i < this.conditions.length; i++)//check if the data values match any conditions
+		{
+			Condition stateCondition = this.conditions[i];
+			if (stateCondition.isConditionSatisfiedBy(dataValues, varNames))
+			{
+				matchedConditions.add(i);
+			}
+		}
+		return matchedConditions;
+	}
+	
+	public ArrayList<Integer> classifyStateByConditions(State s)
+	{
+		DataType[] dataValues = s.getValues();
+		ArrayList<Integer> matchedConditions = new ArrayList<Integer>();
+		for (int i = 0; i < this.conditions.length; i++)//check if the data values match any conditions
+		{
+			Condition stateCondition = this.conditions[i];
+			if (stateCondition.isConditionSatisfiedBy(dataValues, varNames))
+			{
+				matchedConditions.add(i);
+			}
+		}
+		return matchedConditions;
 	}
 	
 	
@@ -99,6 +165,14 @@ public class FSA {
 		return output;
 	}
 	
+	public Condition[] getConditions() {
+		return conditions;
+	}
+
+	public void setConditions(Condition[] conditions) {
+		this.conditions = conditions;
+	}
+
 	public ArrayList<State> getStates() 
 	{
 		return states;
@@ -160,7 +234,7 @@ public class FSA {
 				}
 			}
 			int newIndex = states.size();
-			states.add(new State(newIndex, dataValues, varNames));
+			states.add(new State(newIndex, varNames, dataValues));
 			return newIndex;
 		}
 		
